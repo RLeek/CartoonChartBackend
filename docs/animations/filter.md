@@ -20,7 +20,9 @@
   `order=[enum("ascending", "descending")]`
 
    **Optional:**
+
   `seasonType=["year"]`
+  
   *year is where December is included in Autumn
 
 ## Data Params:
