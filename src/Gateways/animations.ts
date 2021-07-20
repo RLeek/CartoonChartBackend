@@ -14,6 +14,8 @@ class animationsGateway {
         descending: " desc "
     };
 
+    //FIXME: Handle different season parameters, for modified and normal
+
     public static async filterAnimations(season:Season, year:number, order:Order, sort:Sort) {
         return query(`select a.*, json_agg(g.genre) as genres
         from

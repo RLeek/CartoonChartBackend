@@ -1,5 +1,6 @@
 CREATE TYPE showFormat AS ENUM ('Movie','Television', 'Miniseries', 'Special', 'Other');
 CREATE TYPE showStatus AS ENUM ('Currently Airing', 'Finished');
+CREATE TYPE releaseSpecificity AS ENUM ('Date', 'Month', 'Season', 'Year');
 
 CREATE TABLE Animation (
 	id integer NOT NULL,
@@ -7,15 +8,8 @@ CREATE TABLE Animation (
 	synopsis text NOT NULL,
 	format showFormat NOT NULL, 
 	status showStatus NOT NULL, -- We do not need to return this (useful for redundancy in the future) //should be a derived data-type in future
+	specificity releaseSpecificity NOT NULL DEFAULT 'Date', --FIXME:ADD ASSOCIATED TRIGGER
 	release date NOT NULL,
-	season text GENERATED ALWAYS AS
-		(case 
-			when ((date_part('month', release) <= 2) and (date_part('month', release) >= 1)) Then 'Winter'
-		 	when ((date_part('month', release) <= 5) and (date_part('month', release) >= 3)) Then 'Spring' 
-		 	when ((date_part('month', release) <= 8) and (date_part('month', release) >= 6)) Then 'Summer' 
-		 	when ((date_part('month', release) <= 11) and (date_part('month', release) >= 9)) Then 'Autumn' 
-		 	when (date_part('month', release) >= 12) Then 'Winter' 
-		end) STORED, 
 	episodes integer,
 	runtime integer,
 	cover text NOT NULL DEFAULT '/covers/none.jpg', -- Should hold cover for future reasons (but not useful currently)

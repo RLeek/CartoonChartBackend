@@ -276,3 +276,20 @@ class animationsController {
 }
 
 export default animationsController;
+
+
+// How are we going to do this?
+// Should we have it that the next year includes things for that year?
+// Not really sure
+// Alternative is to just have fall include december
+// Yeah that is how we will do it
+// How do we deal with specificity in sql?
+
+// We need a different format for the dates?
+    // We could use a time span?
+    // The season logic no longer really works
+        // So what we could do instead is provide
+            // Specify time format to a month, season, specific date or specific time?
+
+        // Probably use triggers to enforce specificity
+            //Then provide dates

@@ -19,6 +19,10 @@
   `sort=[enum("reviews", "ratings", "title", "release")]`
   `order=[enum("ascending", "descending")]`
 
+   **Optional:**
+  `seasonType=["year"]`
+  *year is where December is included in Autumn
+
 ## Data Params:
 
   None
@@ -35,7 +39,10 @@
         title: Animation1,
         synopsis: Show about main character,
         format: Television,
-        release: 20/20/2020,
+        release: {
+          specificty: "Date",
+          Date: "20/20/2020",
+        },
         episodes: 20,
         runtime: 20,
         reviews: 20,
@@ -48,7 +55,10 @@
         title: Animation2,
         synopsis: Show about main character,
         format: Television,
-        release: 20/20/2020,
+        release: {
+          specificty: "Date",
+          Date: "20/20/2020",
+        },
         episodes: 20,
         runtime: 20,
         reviews: 20,

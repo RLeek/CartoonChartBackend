@@ -30,7 +30,10 @@
         title: Animation1,
         synopsis: Show about main character,
         format: Television,
-        release: 20/20/2020,
+        release: {
+          specificty: "Date",
+          Date: "20/20/2020",
+        },
         episodes: 20,
         runtime: 20,
         reviews: 20,
