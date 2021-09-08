@@ -9,7 +9,7 @@ const getAsync = util.promisify(client.get).bind(client);
 
 const cacheHandler = async(ctx:Context, next:Next)=> {
     const hasher = crypto.createHash('sha1')
-    const hash = hasher.update(ctx.apth +'='+ canonicalizeUrlParams(ctx.query)).digest('hex')
+    const hash = hasher.update(ctx.path +'='+ canonicalizeUrlParams(ctx.query)).digest('hex')
     var value = await getAsync(hash);
     if (value) {
       ctx.body = JSON.parse(value)
