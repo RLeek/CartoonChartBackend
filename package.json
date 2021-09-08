@@ -17,13 +17,16 @@
     "@types/koa-send": "^4.1.2",
     "@types/koa__cors": "^3.0.2",
     "@types/koa__router": "^8.0.4",
+    "@types/node": "^16.7.8",
     "@types/pg": "^8.6.0",
+    "@types/redis": "^2.8.31",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-helmet": "^6.1.0",
     "koa-send": "^5.0.1",
     "pg": "^8.6.0",
     "pm2": "^4.5.6",
+    "redis": "^3.1.2",
     "tslint": "^6.1.3"
   }
 }

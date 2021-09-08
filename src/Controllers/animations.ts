@@ -16,6 +16,7 @@ class animationsController {
         let year:number;
         let order:Order;
         let sort:Sort;
+        let seasonType:boolean;
 
         //First perform error checking
         if (!ctx.query.year || Array.isArray(ctx.query.year)||!(/^\d+$/.test(ctx.query.year))) {
@@ -46,8 +47,15 @@ class animationsController {
         }
         sort = ctx.query.sort as Sort;
 
+        if (ctx.query.seasonType && (Array.isArray(ctx.query.seasonType) || !(ctx.query.seasonType == "year"))) {
+            ctx.status = 400;
+            ctx.body = {"error": "Invalid or incorrect URL parameters"};
+            return;
+        }
+        seasonType = ctx.query.seasonType ? true : false; 
+
         //Then call gateways
-        var animations:any = await animationsGateway.filterAnimations(season, year, order, sort);
+        var animations:any = await animationsGateway.filterAnimations(season, seasonType, year, order, sort);
         animations = transformer.transformAnimations(animations.rows);
         ctx.body = {data:animations}
     }
@@ -278,18 +286,8 @@ class animationsController {
 export default animationsController;
 
 
-// How are we going to do this?
-// Should we have it that the next year includes things for that year?
-// Not really sure
-// Alternative is to just have fall include december
-// Yeah that is how we will do it
-// How do we deal with specificity in sql?
-
-// We need a different format for the dates?
-    // We could use a time span?
-    // The season logic no longer really works
-        // So what we could do instead is provide
-            // Specify time format to a month, season, specific date or specific time?
-
-        // Probably use triggers to enforce specificity
-            //Then provide dates
+// There are several ways of dealing with this
+// so that we do it correctly
+// For simplicity, we will have it so that
+    // Start dates for winter begin on january?
+        //That way everything is in a year

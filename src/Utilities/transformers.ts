@@ -1,7 +1,8 @@
 import { Animation } from "./types"
 
 class transformer {
-    //Todo: Fix the use of any typing
+
+    //FIXME: Cast to new specified data type for animations (dates)
 
     public static transformAnimations(data:any[]):Animation[] {
         let transformedData:Animation[] = [];
@@ -23,8 +24,10 @@ class transformer {
             synopsis:String(data.synopsis),
             format:String(data.format),
             status:String(data.format),
-            release:data.release,
-            season: String(data.season),
+            release: {
+                specificty: String(data.specificity),
+                date: data.release
+            },
             episodes: Number(data.episodes),
             runtime: Number(data.runtime),
             cover: String(data.cover), //Should probably add the corresponding whole url if desired

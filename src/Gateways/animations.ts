@@ -14,14 +14,30 @@ class animationsGateway {
         descending: " desc "
     };
 
-    //FIXME: Handle different season parameters, for modified and normal
 
-    public static async filterAnimations(season:Season, year:number, order:Order, sort:Sort) {
+    static seasonMap: Record<Season, string> ={
+        summer: "where (date_part('month', a.release) >= 6 and date_part('month', a.release) <= 8)",
+        winter: "where ((date_part('month', a.release) >= 1 and date_part('month', a.release) <= 2) or (date_part('month', a.release)=12))",
+        spring: "where (date_part('month', a.release) >= 3 and date_part('month', a.release) <= 5)",
+        autumn: "where (date_part('month', a.release) >= 9 and date_part('month', a.release) <= 11)"
+    };
+
+    //FIXME
+    static yearSeasonMap: Record<Season, string> ={
+        summer: "where (date_part('month', a.release) >= 6 and date_part('month', a.release) <= 8)",
+        winter: "where (date_part('month', a.release) >= 1 and date_part('month', a.release) <= 2)",
+        spring: "where (date_part('month', a.release) >= 3 and date_part('month', a.release) <= 5)",
+        autumn: "where (date_part('month', a.release) >= 9 and date_part('month', a.release) <= 12)"    
+    };
+
+    public static async filterAnimations(season:Season, seasonType:boolean, year:number, order:Order, sort:Sort) {
         return query(`select a.*, json_agg(g.genre) as genres
         from
             (select *
-            from animation a
-            where lower(a.season) = $1 and date_part('year', a.release) = $2) as a 
+            from animation a ` 
+            + (seasonType? this.yearSeasonMap[season]:this.seasonMap[season]) +
+            `
+            and date_part('year', a.release) = $1) as a 
     
             left outer join 
     
@@ -29,14 +45,14 @@ class animationsGateway {
     
         group by a.id, a.title, 
         a.synopsis, a.format, 
-        a.status, a.season, 
+        a.status, a.specificity, 
         a.release, a.episodes, 
         a.runtime, a.cover, 
         a.trailer, a.reviews, a.views, 
         a.average_rating`
         
         + this.SortMap[sort] + this.OrderMap[order] + ";",
-         [season, year.toString()]);
+         [year.toString()]);
     }
 
     public static async locateAnimation(id:number) {
@@ -54,7 +70,7 @@ class animationsGateway {
 
         group by a.id, a.title, 
         a.synopsis, a.format, 
-        a.status, a.season, 
+        a.status, a.specificity, 
         a.release, a.episodes, 
         a.runtime, a.cover, 
         a.trailer, a.reviews, a.views, 

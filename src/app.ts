@@ -4,18 +4,16 @@ import cors from "@koa/cors";
 import bodyParser from "koa-bodyparser";
 import { animationsRouter } from "./Routes/animations";
 import config from "./Utilities/config";
+import cacheHandler from "./Utilities/cache";
 
 const app = new Koa();
 
 app.use(helmet());
 
-
-//Fix this
 var options = {
 	origin : verifyOrigin,
   allowMethods : 'GET'
 };
-
 
 function verifyOrigin (ctx:Context):string {
   const origin = ctx.headers.origin ? ctx.headers.origin : "";
@@ -30,20 +28,18 @@ app.use(cors(options));
 
 app.use(bodyParser());
 
+
+
 app.use(async (ctx, next) => {
   console.log(ctx.query);
   await next();
   console.log(ctx.body);
 });
 
+app.use(cacheHandler)
+
 app.use(animationsRouter.routes());
 app.use(animationsRouter.allowedMethods());
 
-
-
 app.listen(config.port);
 
-
-//todo:
-  //serving static files
-  //fixing config

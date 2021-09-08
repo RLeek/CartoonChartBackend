@@ -1,6 +1,11 @@
 import { Pool } from 'pg';
 
-const pool = new Pool();
+const pool = new Pool({
+    user: "ricky",
+    host: "/var/run/postgresql",
+    database: "Animation",
+    port: 5432,
+});
 
 
 //Not sure if this is correct
